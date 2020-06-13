@@ -22,4 +22,15 @@ public class MainClassTest {
 
         Assert.assertTrue("ClassNumber <= 45", actual > compared);
     }
+
+    @Test
+    public void testGetClassString()
+    {
+        String actual = main.getClassString();
+        boolean containsLowerCase = actual.contains("hello");
+        boolean containsUpperCase = actual.contains("Hello");
+        String errorMessage = "Text doesn't contain 'hello' or 'Hello'";
+
+        Assert.assertTrue(errorMessage, containsLowerCase || containsUpperCase);
+    }
 }
