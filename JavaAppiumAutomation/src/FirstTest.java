@@ -11,6 +11,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.net.URL;
+import java.util.List;
 
 public class FirstTest {
 
@@ -171,6 +172,43 @@ public class FirstTest {
         );
     }
 
+    @Test
+    public void testCheckWordsInSearch()
+    {
+        waitForElementAndClick(
+                By.xpath("//*[contains(@text,'Search Wikipedia')]"),
+                "Cannot find 'Search Wikipedia' input",
+                5
+        );
+        waitForElementAndSendKeys(
+                By.xpath("//*[contains(@text,'Search…')]"),
+                "Java",
+                "Cannot find 'Java' input",
+                5
+        );
+        assertElementsContainText(
+                By.id("org.wikipedia:id/page_list_item_title"),
+                "Java",
+                "Not all articles contain 'Java'"
+        );
+
+    }
+
+    private void assertElementsContainText(By by, String expected_text, String error_message)
+    {
+        List<WebElement> elements = waitForElementsPresent(by, "Element not found", 5);
+        for (WebElement element : elements)
+        {
+            String actual_text = element.getText();
+            Assert.assertTrue(
+                    error_message,
+                    actual_text.contains(expected_text)
+            );
+        }
+    }
+
+
+
     private void assertElementHasText(By by, String expected_text, String error_message)
     {
         WebElement element = waitForElementPresent(by, "Element not found");
@@ -188,6 +226,15 @@ public class FirstTest {
         wait.withMessage(error_message + "\n");
         return wait.until(
                 ExpectedConditions.presenceOfElementLocated(by)
+        );
+    }
+
+    private List<WebElement> waitForElementsPresent(By by, String error_message, long timeoutInSeconds)
+    {
+        WebDriverWait wait = new WebDriverWait(driver, timeoutInSeconds);
+        wait.withMessage(error_message + "\n");
+        return wait.until(
+                ExpectedConditions.presenceOfAllElementsLocatedBy(by)
         );
     }
 
