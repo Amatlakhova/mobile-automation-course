@@ -140,6 +140,37 @@ public class FirstTest {
         );
     }
 
+    @Test
+    public void testSearchArticles()
+    {
+        waitForElementAndClick(
+                By.xpath("//*[contains(@text,'Search Wikipedia')]"),
+                "Cannot find 'Search Wikipedia' input",
+                5
+        );
+        waitForElementAndSendKeys(
+                By.xpath("//*[contains(@text,'Search…')]"),
+                "Cyprus",
+                "Cannot find 'Cyprus' input",
+                5
+        );
+        waitForElementPresent(
+                By.id("org.wikipedia:id/page_list_item_title"),
+                "Articles are not founded",
+                5
+        );
+        waitForElementAndClick(
+                By.id("org.wikipedia:id/search_close_btn"),
+                "Cannot find X to cancel search",
+                5
+        );
+        waitForElementNotPresent(
+                By.id("org.wikipedia:id/page_list_item_title"),
+                "Articles are still present on the page",
+                5
+        );
+    }
+
     private void assertElementHasText(By by, String expected_text, String error_message)
     {
         WebElement element = waitForElementPresent(by, "Element not found");
