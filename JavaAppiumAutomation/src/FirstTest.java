@@ -583,6 +583,31 @@ public class FirstTest {
         );
     }
 
+    @Test
+    public void testArticleTitlePresent()
+    {
+        waitForElementAndClick(
+                By.xpath("//*[contains(@text,'Search Wikipedia')]"),
+                "Cannot find 'Search Wikipedia' input",
+                5
+        );
+        waitForElementAndSendKeys(
+                By.xpath("//*[contains(@text,'Search…')]"),
+                "Java",
+                "Cannot find search input",
+                5
+        );
+        waitForElementAndClick(
+                By.xpath("//*[@resource-id='org.wikipedia:id/page_list_item_container']//*[@text='Object-oriented programming language']"),
+                "Cannot find 'Object-oriented programming language' input",
+                5
+        );
+        assertElementPresent(
+                By.id("org.wikipedia:id/view_page_title_text"),
+                "Cannot find article title"
+        );
+    }
+
     private void assertElementsContainText(By by, String expected_text, String error_message)
     {
         List<WebElement> elements = waitForElementsPresent(by, "Element not found", 5);
@@ -736,6 +761,12 @@ public class FirstTest {
     {
         WebElement element = waitForElementPresent(by, error_message, timeoutInSeconds);
         return element.getAttribute(attribute);
+    }
+
+    private void assertElementPresent(By by, String error_message)
+    {
+        WebElement element = driver.findElement(by);
+        Assert.assertNotNull(error_message, element);
     }
 
 }
