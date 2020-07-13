@@ -262,6 +262,11 @@ public class FirstTest {
                 "Cannot find button to open article options",
                 5
         );
+        waitForElementsToRender(
+                By.xpath("//android.widget.TextView"),
+                "Cannot render menu within given time",
+                5
+        );
         waitForElementAndClick(
                 By.xpath("//*[@text='Add to reading list']"),
                 "Cannot find option to add article to reading list",
@@ -495,6 +500,11 @@ public class FirstTest {
                 "Cannot find button to open article options",
                 5
         );
+        waitForElementsToRender(
+                By.xpath("//android.widget.TextView"),
+                "Cannot render menu within given time",
+                5
+        );
         waitForElementAndClick(
                 By.xpath("//*[@text='Add to reading list']"),
                 "Cannot find option to add article to reading list",
@@ -550,13 +560,18 @@ public class FirstTest {
                 "Cannot find button to open article options",
                 5
         );
+        waitForElementsToRender(
+                By.xpath("//android.widget.TextView"),
+                "Cannot render menu within given time",
+                5
+        );
         waitForElementAndClick(
                 By.xpath("//*[@text='Add to reading list']"),
                 "Cannot find option to add article to reading list",
                 5
         );
         waitForElementAndClick(
-                By.xpath("//*[@text='Learning Programming']"),
+                By.xpath("//android.widget.TextView[@resource-id='org.wikipedia:id/item_title']"),
                 "Cannot find 'Learning Programming' reading list",
                 5
         );
@@ -770,6 +785,13 @@ public class FirstTest {
     {
         WebElement element = driver.findElement(by);
         Assert.assertNotNull(error_message, element);
+    }
+
+    private void waitForElementsToRender(By by, String error_message, long timeoutInSeconds)
+    {
+        WebDriverWait wait = new WebDriverWait(driver, timeoutInSeconds);
+        wait.withMessage(error_message + "\n");
+        wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(by));
     }
 
 }
