@@ -7,7 +7,8 @@ public class MyListsPageObject extends MainPageObject
 {
     public static final String
             FOLDER_BY_NAME_TPL = "//*[@text='{FOLDER_NAME}']",
-            ARTICLE_BY_TITLE_TPL = "//*[@text='{TITLE}']";
+            ARTICLE_BY_TITLE_TPL = "//*[@text='{TITLE}']",
+            MY_SAVED_LIST = "//android.widget.FrameLayout[@content-desc='My lists']";
 
     private static String getFolderXpathByName(String name_of_folder)
     {
@@ -36,7 +37,7 @@ public class MyListsPageObject extends MainPageObject
 
     public void waitForArticleToAppearByTitle(String article_title)
     {
-        String article_xpath = getFolderXpathByName(article_title);
+        String article_xpath = getSavedArticleXpathByTitle(article_title);
         this.waitForElementPresent(
                 By.xpath(article_xpath),
                 "Cannot find saved article by title " + article_title,
@@ -46,7 +47,7 @@ public class MyListsPageObject extends MainPageObject
 
     public void waitForArticleToDisappearByTitle(String article_title)
     {
-        String article_xpath = getFolderXpathByName(article_title);
+        String article_xpath = getSavedArticleXpathByTitle(article_title);
         this.waitForElementNotPresent(
                 By.xpath(article_xpath),
                 "Saved article still present with title " + article_title,
@@ -64,6 +65,15 @@ public class MyListsPageObject extends MainPageObject
                 "Cannot find saved article"
         );
         this.waitForArticleToDisappearByTitle(article_title);
+    }
+
+    public void goToMyLists()
+    {
+        this.waitForElementAndClick(
+                By.xpath(MY_SAVED_LIST),
+                "Cannot find navigation button to My List",
+                5
+        );
     }
 
 }
