@@ -1,6 +1,5 @@
 package lib.ui;
 
-import com.sun.jna.WString;
 import io.appium.java_client.AppiumDriver;
 import org.openqa.selenium.By;
 
