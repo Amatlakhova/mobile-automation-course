@@ -6,6 +6,29 @@ import org.junit.Test;
 
 public class SearchTests extends CoreTestCase {
 
+
+    @Test
+    public void testSearchResultsPresented()
+    {
+        SearchPageObject SearchPageObject = new SearchPageObject(driver);
+
+        SearchPageObject.initSearchInput();
+        SearchPageObject.typeSearchLine("Frida");
+
+        SearchPageObject.waitForElementByTitleAndDescription(
+                "Frida",
+                "2002 film directed by Julie Taymor"
+        );
+        SearchPageObject.waitForElementByTitleAndDescription(
+                "Frida Kahlo",
+                "Mexican Painter"
+        );
+        SearchPageObject.waitForElementByTitleAndDescription(
+                "Friday the 13th (franchise)",
+                "American horror franchise"
+        );
+    }
+
     @Test
     public void testSearch()
     {
