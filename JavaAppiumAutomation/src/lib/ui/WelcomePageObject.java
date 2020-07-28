@@ -1,7 +1,6 @@
 package lib.ui;
 
 import io.appium.java_client.AppiumDriver;
-import org.openqa.selenium.By;
 
 public class WelcomePageObject extends MainPageObject
 {
@@ -11,11 +10,21 @@ public class WelcomePageObject extends MainPageObject
             STEP_ADD_OR_EDIT_PREFERRED_LANG_LINK = "id:Add or edit preferred languages",
             STEP_LEARN_MORE_ABOUT_DATA_COLLECTED_LINK = "id:Learn more about data collected",
             NEXT_LINK = "Next",
-            GET_STARTED = "Get started";
+            GET_STARTED = "Get started",
+            SKIP = "id:Skip";
 
     public WelcomePageObject(AppiumDriver driver)
     {
         super(driver);
+    }
+
+    public void clickSkip()
+    {
+        this.waitForElementAndClick(
+                SKIP,
+                "Cannot find and click ‘Skip‘ button",
+                5
+        );
     }
 
     public void waitForLearnMoreLink()
