@@ -26,8 +26,8 @@ public class MyListsTests extends CoreTestCase
         SearchPageObject.clickByArticleWithSubstring("Object-oriented programming language");
 
         ArticlePageObject ArticlePageObject = ArticlePageObjectFactory.get(driver);
-        ArticlePageObject.waitForTitleElement();
-        String article_title = ArticlePageObject.getArticleTitle();
+        ArticlePageObject.waitForTitleElement("Java (programming language)");
+        String article_title = ArticlePageObject.getArticleTitle("Java (programming language)");
 
         if (Platform.getInstance().isAndroid()) {
             ArticlePageObject.addFirstArticleToMyList(name_of_folder);
@@ -55,31 +55,52 @@ public class MyListsTests extends CoreTestCase
     public void testDeleteArticleFromMyList()
     {
         SearchPageObject SearchPageObject = SearchPageObjectFactory.get(driver);
-        
+
         SearchPageObject.initSearchInput();
         SearchPageObject.typeSearchLine("Java");
         SearchPageObject.clickByArticleWithSubstring("Object-oriented programming language");
 
         ArticlePageObject ArticlePageObject = ArticlePageObjectFactory.get(driver);
-        ArticlePageObject.waitForTitleElement();
-        String first_article_title = ArticlePageObject.getArticleTitle();
-        String name_of_folder = "Learning programming";
-        ArticlePageObject.addFirstArticleToMyList(name_of_folder);
-        ArticlePageObject.closeArticle();
+        ArticlePageObject.waitForTitleElement("Java (programming language)");
+
+        if (Platform.getInstance().isAndroid()) {
+            ArticlePageObject.addFirstArticleToMyList(name_of_folder);
+            ArticlePageObject.closeArticle();
+        } else {
+            ArticlePageObject.addArticleToMySaved();
+            ArticlePageObject.closeArticle();
+            SearchPageObject.clickCancelSearch();
+        }
 
         SearchPageObject.initSearchInput();
         SearchPageObject.typeSearchLine("Java");
         SearchPageObject.clickByArticleWithSubstring("Set of several computer software products and specifications");
-        ArticlePageObject.waitForTitleElement();
-        String second_article_title = ArticlePageObject.getArticleTitle();
-        ArticlePageObject.addSecondArticleToMyList();
-        ArticlePageObject.closeArticle();
+
+        ArticlePageObject.waitForTitleElement("Java (software platform)");
+
+        if (Platform.getInstance().isAndroid()) {
+            ArticlePageObject.addSecondArticleToMyList();
+            ArticlePageObject.closeArticle();
+        } else {
+            ArticlePageObject.addArticleToMySaved();
+            ArticlePageObject.closeArticle();
+            SearchPageObject.clickCancelSearch();
+        }
+
+        NavigationUI NavigationUI = NavigationUIFactory.get(driver);
+        NavigationUI.clickMyLists();
 
         MyListsPageObject MyListsPageObject = MyListsPageObjectFactory.get(driver);
-        MyListsPageObject.goToMyLists();
-        MyListsPageObject.openFolderByName(name_of_folder);
-        MyListsPageObject.swipeByArticleToDelete(first_article_title);
-        MyListsPageObject.waitForArticleToAppearByTitle(second_article_title);
+
+        if (Platform.getInstance().isAndroid()) {
+            MyListsPageObject.goToMyLists();
+            MyListsPageObject.openFolderByName(name_of_folder);
+        } else {
+            MyListsPageObject.closePopUpSyncSavedArticle();
+        }
+
+        MyListsPageObject.swipeByArticleToDelete("Java (programming language)");
+        MyListsPageObject.waitForArticleDescriptionPresent();
     }
 
 }

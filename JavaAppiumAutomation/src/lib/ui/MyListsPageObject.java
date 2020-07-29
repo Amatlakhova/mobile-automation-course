@@ -9,7 +9,8 @@ abstract public class MyListsPageObject extends MainPageObject
             FOLDER_BY_NAME_TPL,
             ARTICLE_BY_TITLE_TPL,
             MY_SAVED_LIST,
-            CLOSE_SYNC_SAVED_ARTICLE;
+            CLOSE_SYNC_SAVED_ARTICLE,
+            ARTICLE_LIST_DESCRIPTION;
 
     private static String getFolderXpathByName(String name_of_folder)
     {
@@ -86,6 +87,14 @@ abstract public class MyListsPageObject extends MainPageObject
         this.waitForElementAndClick(
                 MY_SAVED_LIST,
                 "Cannot find navigation button to My List",
+                5
+        );
+    }
+
+    public void waitForArticleDescriptionPresent() {
+        this.waitForElementPresent(
+                ARTICLE_LIST_DESCRIPTION,
+                "Cannot find description of article in My Lists",
                 5
         );
     }

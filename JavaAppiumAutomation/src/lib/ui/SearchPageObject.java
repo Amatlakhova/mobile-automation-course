@@ -1,6 +1,7 @@
 package lib.ui;
 
 import io.appium.java_client.AppiumDriver;
+import lib.Platform;
 
 abstract public class SearchPageObject extends MainPageObject{
 
@@ -83,6 +84,7 @@ abstract public class SearchPageObject extends MainPageObject{
     public void clickByArticleWithSubstring(String substring)
     {
         String search_result_xpath = getResultSearchElement(substring);
+        this.swipeToFindElement(search_result_xpath);
         this.waitForElementAndClick(search_result_xpath, "Cannot find and click search result with substring " + substring, 5);
     }
 
@@ -107,4 +109,20 @@ abstract public class SearchPageObject extends MainPageObject{
         this.assertElementPresent(SEARCH_EMPTY_RESULT_ELEMENT, "We supposed not to find any results");
     }
 
+    public void swipeToFindElement(String locator)
+    {
+        if (Platform.getInstance().isAndroid()) {
+            this.swipeUpToFindElement(
+                    locator,
+                    "Cannot find requested element " + locator,
+                    40
+            );
+        } else {
+            this.swipeUpTillElementAppear(
+                    locator,
+                    "Cannot find requested element " + locator,
+                    40
+            );
+        }
+    }
 }

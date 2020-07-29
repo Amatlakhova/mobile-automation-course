@@ -8,6 +8,7 @@ abstract public class ArticlePageObject extends MainPageObject
 {
     protected static String
             TITLE,
+            TITLE_TPL,
             FOOTER_ELEMENT,
             OPTIONS_BUTTON,
             MENU_OPTIONS,
@@ -23,14 +24,24 @@ abstract public class ArticlePageObject extends MainPageObject
         super(driver);
     }
 
-    public WebElement waitForTitleElement()
+    private static String getArticleByTitle(String article_title)
     {
-        return this.waitForElementPresent(TITLE, "Cannot find article title on page", 15);
+        return TITLE_TPL.replace("{TITLE}", article_title);
     }
 
-    public String getArticleTitle()
+    public WebElement waitForTitleElement(String article_title)
     {
-        WebElement title_element = waitForTitleElement();
+        if (Platform.getInstance().isAndroid()) {
+            return this.waitForElementPresent(TITLE, "Cannot find article title on page", 15);
+        } else {
+            return this.waitForElementPresent(getArticleByTitle(article_title), "Cannot find article title on page", 15);
+        }
+
+    }
+
+    public String getArticleTitle(String article_title)
+    {
+        WebElement title_element = waitForTitleElement(article_title);
         if (Platform.getInstance().isAndroid()) {
             return title_element.getAttribute("text");
         } else {
@@ -53,7 +64,6 @@ abstract public class ArticlePageObject extends MainPageObject
                     40
             );
         }
-
     }
 
     public void addFirstArticleToMyList(String name_of_folder)
