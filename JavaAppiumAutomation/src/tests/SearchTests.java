@@ -1,6 +1,7 @@
 package tests;
 
 import lib.CoreTestCase;
+import lib.Platform;
 import lib.ui.SearchPageObject;
 import lib.ui.factories.SearchPageObjectFactory;
 import org.junit.Test;
@@ -20,9 +21,17 @@ public class SearchTests extends CoreTestCase {
                 "Frida",
                 "2002 film directed by Julie Taymor"
         );
+
+        String description;
+        if (Platform.getInstance().isAndroid()) {
+            description = "Mexican Painter";
+        } else {
+            description = "Mexican painter";
+        }
+
         SearchPageObject.waitForElementByTitleAndDescription(
                 "Frida Kahlo",
-                "Mexican Painter"
+                description
         );
         SearchPageObject.waitForElementByTitleAndDescription(
                 "Friday the 13th (franchise)",
